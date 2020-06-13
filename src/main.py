@@ -67,15 +67,22 @@ def draw_snek(scr: curses.window, snake: list):
     scr.addstr(snake[0][0], snake[0][1], '#')
 
 
+def draw_apples(scr: curses.window, apples: list):
+    for y, x in apples:
+        scr.addstr(y, x, '$')
+
+
 def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
     snake: list = [(0, 2), (0, 1), (0, 0)]  # head is [0], body is [1:].
     direction = EAST
+    apples: list = [(5, 5), (8, 8)]
     while True:
         scr.clear()
         draw_snek(scr, snake)
-        snake, direction = tick(snake, direction, scr.getch(), scr.getmaxyx())
+        draw_apples(scr, apples)
+        snake, direction = tick(snake, direction, scr.getch(), apples, scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
 
