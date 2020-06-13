@@ -21,6 +21,10 @@ def tick(snake: list, direction: tuple, key: int,
         snake[0] = (maxc[0]-1, snake[0][1])
     elif snake[0][0] >= maxc[0]:
         snake[0] = (0, snake[0][1])
+    if snake[0][1] < 0:
+        snake[0] = (snake[0][0], maxc[1]-1)
+    elif snake[0][1] >= maxc[1]:
+        snake[0] = (snake[0][0], 0)
     return (snake, direction)
 
 
