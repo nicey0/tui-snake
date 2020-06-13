@@ -15,7 +15,7 @@ def tick(snake: list, direction: tuple, key: int,
         direction = go_right(direction)
     # ++TEMP++ #
     elif key == ord('i'):
-        snake.append(snake[-1])
+        snake = big_snek(snake)
     # --TEMP-- #
     for i in range(1, len(snake))[::-1]:
         snake[i] = snake[i-1]
@@ -52,6 +52,10 @@ def go_right(direction: tuple) -> tuple:
         return SOUTH
     elif direction == WEST:
         return NORTH
+
+
+def big_snek(snake: list) -> list:
+    return snake + [snake[-1]]
 
 
 def draw_snek(scr: curses.window, snake: list):
