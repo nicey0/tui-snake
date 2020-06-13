@@ -6,9 +6,17 @@ Simple Snake clone for Unix terminals, written in pure Python with a color modul
 ## Todo
 ### Curses display
 ### Snake
+- [X] Movement
+- [X] Apple eating
+- [X] Wrapping (teleport down if y < 0 and etc)
+### Apples
+- [X] Disappear when eaten
+- [ ] Create new apples after the last was eaten
+- [ ] Don't spawn apples on top of the snake
 ### Game state
 - [X] Running
     - [X] Fullscreen area
+    - [ ] 20-width area to the left (score, head position, apples onscreen, etc)
 - [ ] End
     - [ ] \<score\>
     - [ ] Play again
@@ -33,5 +41,4 @@ Simple Snake clone for Unix terminals, written in pure Python with a color modul
     - [ ] q quits game - X
     - [ ] \<CR\> enters selected option - X
 ### Score
-- [ ] Add score system (apples eaten)
-- [ ] Display score
+- [X] Add score system (apples eaten)
