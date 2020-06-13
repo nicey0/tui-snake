@@ -7,7 +7,8 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-def tick(snake: list, direction: tuple, key: int) -> (list, tuple):
+def tick(snake: list, direction: tuple, key: int,
+         maxc: tuple) -> (list, tuple):
     if key == ord('j'):
         direction = go_left(direction)
     elif key == ord('k'):
@@ -16,6 +17,10 @@ def tick(snake: list, direction: tuple, key: int) -> (list, tuple):
         snake[i] = snake[i-1]
     snake[0] = (snake[0][0] + direction[0],
                 snake[0][1] + direction[1])
+    if snake[0][0] < 0:
+        snake[0] = (maxc[0]-1, snake[0][1])
+    elif snake[0][0] >= maxc[0]:
+        snake[0] = (0, snake[0][1])
     return (snake, direction)
 
 
@@ -55,7 +60,7 @@ def main(scr: curses.window):
     while True:
         scr.clear()
         draw_snek(scr, snake)
-        snake, direction = tick(snake, direction, scr.getch())
+        snake, direction = tick(snake, direction, scr.getch(), scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
 
