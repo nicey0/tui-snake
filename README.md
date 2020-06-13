@@ -7,8 +7,8 @@ Simple Snake clone for Unix terminals, written in pure Python with a color modul
 ### Curses display
 ### Snake
 ### Game state
-- [ ] Running
-    - [ ] Fullscreen area
+- [X] Running
+    - [X] Fullscreen area
 - [ ] End
     - [ ] \<score\>
     - [ ] Play again
@@ -17,9 +17,9 @@ Simple Snake clone for Unix terminals, written in pure Python with a color modul
     - [ ] Start
     - [ ] Quit
 ### Input
-- [ ] Running
-    - [ ] j goes left
-    - [ ] k goes right
+- [X] Running
+    - [X] j goes left
+    - [X] k goes right
     - [ ] Q quits to main menu
 - [ ] End
     - [ ] j moves up - X

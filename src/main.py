@@ -13,6 +13,10 @@ def tick(snake: list, direction: tuple, key: int,
         direction = go_left(direction)
     elif key == ord('k'):
         direction = go_right(direction)
+    # ++TEMP++ #
+    elif key == ord('i'):
+        snake.append(snake[-1])
+    # --TEMP-- #
     for i in range(1, len(snake))[::-1]:
         snake[i] = snake[i-1]
     snake[0] = (snake[0][0] + direction[0],
