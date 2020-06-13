@@ -7,20 +7,19 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-def tick(snake: list, direction: tuple, key: int,
+def tick(snake: list, direction: tuple, key: int, apples: list,
          maxc: tuple) -> (list, tuple):
+    # Key processing
     if key == ord('j'):
         direction = go_left(direction)
     elif key == ord('k'):
         direction = go_right(direction)
-    # ++TEMP++ #
-    elif key == ord('i'):
-        snake = big_snek(snake)
-    # --TEMP-- #
+    # Movement
     for i in range(1, len(snake))[::-1]:
         snake[i] = snake[i-1]
     snake[0] = (snake[0][0] + direction[0],
                 snake[0][1] + direction[1])
+    # Portals
     if snake[0][0] < 0:
         snake[0] = (maxc[0]-1, snake[0][1])
     elif snake[0][0] >= maxc[0]:
@@ -29,6 +28,10 @@ def tick(snake: list, direction: tuple, key: int,
         snake[0] = (snake[0][0], maxc[1]-1)
     elif snake[0][1] >= maxc[1]:
         snake[0] = (snake[0][0], 0)
+    # Apples
+    for apple in apples:
+        if snake[0] == apple:
+            snake = big_snek(snake)
     return (snake, direction)
 
 
