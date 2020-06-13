@@ -8,7 +8,7 @@ WEST = (0, -1)
 
 
 def tick(snake: list, direction: tuple, key: int, apples: list,
-         maxc: tuple) -> (list, tuple):
+         maxc: tuple) -> (list, tuple, list):
     # Key processing
     if key == ord('j'):
         direction = go_left(direction)
@@ -32,7 +32,8 @@ def tick(snake: list, direction: tuple, key: int, apples: list,
     for apple in apples:
         if snake[0] == apple:
             snake = big_snek(snake)
-    return (snake, direction)
+            apples.remove(apple)
+    return (snake, direction, apples)
 
 
 def go_left(direction: tuple) -> tuple:
@@ -82,7 +83,8 @@ def main(scr: curses.window):
         scr.clear()
         draw_snek(scr, snake)
         draw_apples(scr, apples)
-        snake, direction = tick(snake, direction, scr.getch(), apples, scr.getmaxyx())
+        snake, direction, apples = tick(snake, direction, scr.getch(), apples,
+                                scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
 
