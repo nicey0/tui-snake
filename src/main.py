@@ -84,7 +84,7 @@ def main(scr: curses.window):
         draw_snek(scr, snake)
         draw_apples(scr, apples)
         snake, direction, apples = tick(snake, direction, scr.getch(), apples,
-                                scr.getmaxyx())
+                                        scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
 
