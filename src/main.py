@@ -7,20 +7,19 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-def tick(snake: list, direction: tuple, key: int,
-         maxc: tuple) -> (list, tuple):
+def tick(snake: list, direction: tuple, key: int, apples: list,
+         maxc: tuple) -> (list, tuple, list):
+    # Key processing
     if key == ord('j'):
         direction = go_left(direction)
     elif key == ord('k'):
         direction = go_right(direction)
-    # ++TEMP++ #
-    elif key == ord('i'):
-        snake = big_snek(snake)
-    # --TEMP-- #
+    # Movement
     for i in range(1, len(snake))[::-1]:
         snake[i] = snake[i-1]
     snake[0] = (snake[0][0] + direction[0],
                 snake[0][1] + direction[1])
+    # Portals
     if snake[0][0] < 0:
         snake[0] = (maxc[0]-1, snake[0][1])
     elif snake[0][0] >= maxc[0]:
@@ -29,7 +28,12 @@ def tick(snake: list, direction: tuple, key: int,
         snake[0] = (snake[0][0], maxc[1]-1)
     elif snake[0][1] >= maxc[1]:
         snake[0] = (snake[0][0], 0)
-    return (snake, direction)
+    # Apples
+    for apple in apples:
+        if snake[0] == apple:
+            snake = big_snek(snake)
+            apples.remove(apple)
+    return (snake, direction, apples)
 
 
 def go_left(direction: tuple) -> tuple:
@@ -64,15 +68,23 @@ def draw_snek(scr: curses.window, snake: list):
     scr.addstr(snake[0][0], snake[0][1], '#')
 
 
+def draw_apples(scr: curses.window, apples: list):
+    for y, x in apples:
+        scr.addstr(y, x, '$')
+
+
 def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
     snake: list = [(0, 2), (0, 1), (0, 0)]  # head is [0], body is [1:].
     direction = EAST
+    apples: list = [(5, 5), (8, 8)]
     while True:
         scr.clear()
         draw_snek(scr, snake)
-        snake, direction = tick(snake, direction, scr.getch(), scr.getmaxyx())
+        draw_apples(scr, apples)
+        snake, direction, apples = tick(snake, direction, scr.getch(), apples,
+                                        scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
 
