@@ -10,7 +10,7 @@ def process_key(key: int, cursor: int, menu_items: list) -> (int, str):
         cursor -= 1 if cursor > 0 else \
             -(len(menu_items)-1)
     elif key == ord('q'):  # exit
-        pass
+        game_state = " EXIT "
     elif key == curses.KEY_ENTER or key == ord('\n') or key == 13:
         game_state = select(cursor, menu_items)
     return (cursor, game_state)
