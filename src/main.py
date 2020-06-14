@@ -9,12 +9,6 @@ WEST = (0, -1)
 
 def tick(snake: list, direction: tuple, apples: list, score: int,
          minx: int, maxc: tuple) -> (list, tuple, list, int):
-    # Apples
-    for apple in apples:
-        if snake[0] == apple:
-            snake = big_snek(snake)
-            apples.remove(apple)
-            score += 1
     return (snake, direction, apples, score)
 
 
@@ -47,6 +41,17 @@ def portals(snake: list, minx: int, maxc: tuple) -> list:
         snake[0] = (snake[0][0], maxc[1]-1)
     elif snake[0][1] >= maxc[1]:
         snake[0] = (snake[0][0], minx)
+
+
+def eat_apples(snake: list, apples: list) -> (list, list, int):
+    score = 0
+    # Apples
+    for apple in apples:
+        if snake[0] == apple:
+            snake = big_snek(snake)
+            apples.remove(apple)
+            score += 1
+    return (snake, apples, score)
 
 
 def go_left(direction: tuple) -> tuple:
