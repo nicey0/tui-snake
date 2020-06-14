@@ -8,7 +8,7 @@ WEST = (0, -1)
 
 
 def tick(snake: list, direction: tuple, key: int, apples: list, score: int,
-         maxc: tuple) -> (list, tuple, list, int):
+         minx: int, maxc: tuple) -> (list, tuple, list, int):
     # Key processing
     if key == ord('j'):
         direction = go_left(direction)
@@ -20,14 +20,16 @@ def tick(snake: list, direction: tuple, key: int, apples: list, score: int,
     snake[0] = (snake[0][0] + direction[0],
                 snake[0][1] + direction[1])
     # Portals
+    # y
     if snake[0][0] < 0:
         snake[0] = (maxc[0]-1, snake[0][1])
     elif snake[0][0] >= maxc[0]:
         snake[0] = (0, snake[0][1])
-    if snake[0][1] < 0:
+    # x
+    if snake[0][1] < minx:
         snake[0] = (snake[0][0], maxc[1]-1)
     elif snake[0][1] >= maxc[1]:
-        snake[0] = (snake[0][0], 0)
+        snake[0] = (snake[0][0], minx)
     # Apples
     for apple in apples:
         if snake[0] == apple:
@@ -77,8 +79,11 @@ def draw_apples(scr: curses.window, apples: list):
 def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
-    snake: list = [(0, 2), (0, 1), (0, 0)]  # head is [0], body is [1:].
-    direction = EAST
+    status_w: int = 2
+    snake: list = [(0, status_w+1), (0, status_w+2), (0, status_w+3)]
+    for i in range(4, 30+1):
+        snake.append((0, status_w+i))
+    direction = WEST
     apples: list = [(5, 5), (8, 8)]
     score = 0
     while True:
@@ -87,7 +92,8 @@ def main(scr: curses.window):
         draw_apples(scr, apples)
         scr.addstr(0, 0, str(score))
         snake, direction, apples, score = tick(snake, direction, scr.getch(),
-                                               apples, score, scr.getmaxyx())
+                                               apples, score, status_w,
+                                               scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
 
