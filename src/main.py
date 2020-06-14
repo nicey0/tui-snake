@@ -1,4 +1,5 @@
 import curses
+from random import randint
 
 
 NORTH = (-1, 0)
@@ -113,8 +114,14 @@ def draw_statusbar(scr: curses.window, maxc: tuple, status_w: int, score: int):
         scr.addstr(starty + i + 1, 1, item)
 
 
-def create_apples(snake: list, apples: list, amount: int, status_w: int,
+def create_apples(snake: list, apples: list, amount: int, minx: int,
                   maxc: tuple) -> list:
+    while amount > 0:
+        y = randint(0, maxc[0]-1)
+        x = randint(minx, maxc[1]-1)
+        if (y, x) not in apples and (y, x) not in snake:
+            apples.append((y, x))
+            amount -= 1
     return apples
 
 
@@ -143,7 +150,7 @@ def main(scr: curses.window):
         snake = move_snake(snake, direction)
         snake = portals(snake, direction, status_w+2, (maxy-1, maxx))
         snake, apples, nscore = eat_apples(snake, apples)
-        apples = create_apples(apples, MAX_APPLES - len(apples), status_w,
+        apples = create_apples(snake, apples, MAX_APPLES - len(apples), status_w,
                                (maxy, maxx))
         score += nscore
         # -- Tick --
