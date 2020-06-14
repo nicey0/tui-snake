@@ -13,13 +13,13 @@ class State:
         self.running = running
 
     def switch(self, game_state) -> bool:
-        if game_state in self.states:
-            self._game_state = self.states[game_state]
+        if game_state in self._states:
+            self._game_state = self._states[game_state]
             return True
         return False
 
-    def run(self):
-        curses.wrapper(self._game_state)
+    def run(self) -> str:
+        return curses.wrapper(self._game_state)
 
     def __eq__(self, game_state: str):
         return self._game_state == self._states[game_state]
