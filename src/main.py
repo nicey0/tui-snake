@@ -25,17 +25,20 @@ def move_snake(snake: list, direction: tuple) -> list:
     return snake
 
 
-def portals(snake: list, minx: int, maxc: tuple) -> list:
+def portals(snake: list, direction: tuple, minx: int, maxc: tuple) -> list:
+    nexty: int = snake[0][0]
+    nextx: int = snake[0][1]
     # y
     if snake[0][0] < 0:
-        snake[0] = (maxc[0]-1, snake[0][1])
+        nexty = maxc[0]-1
     elif snake[0][0] >= maxc[0]:
-        snake[0] = (0, snake[0][1])
+        nexty = 0
     # x
     if snake[0][1] < minx:
-        snake[0] = (snake[0][0], maxc[1]-1)
+        nextx = maxc[1]-1
     elif snake[0][1] >= maxc[1]:
-        snake[0] = (snake[0][0], minx)
+        nextx = minx
+    snake[0] = (nexty, nextx)
     return snake
 
 
@@ -87,12 +90,16 @@ def draw_apples(scr: curses.window, apples: list):
         scr.addstr(y, x, '$')
 
 
-def draw_statusbar(scr: curses.window, status_w: int, score: int, *args):
+def draw_statusbar(scr: curses.window, maxc: tuple, status_w: int,
+                   score: int, *args):
     def section(word: str, status_w: int):
         word = "--"+word
         return word + "-"*(status_w-len(word)+1)
-    for line in range(scr.getmaxyx()[0]):
+    for line in range(maxc[0]):
         scr.addstr(line, status_w + 1, "|")
+    scr.addstr(maxc[0], status_w + 1, "+")
+    scr.addstr(maxc[0], 0, "-"*maxc[1])
+    scr.addstr(maxc[0], status_w + 1, "+")
     scr.addstr(1, 0, section("SCORE", status_w))
     scr.addstr(2, 1, str(score))
     # Debug
@@ -102,7 +109,7 @@ def draw_statusbar(scr: curses.window, status_w: int, score: int, *args):
     # Help menu
     help_menu = ["#: snake head", "@: snake body", "$: apple", "j: turn left",
                  "k: turn right", "q: quit to main menu"]
-    starty = scr.getmaxyx()[0]-1-len(help_menu)-1
+    starty = maxc[0]-1-len(help_menu)-1
     scr.addstr(starty, 0, section("HELP", status_w))
     for i, item in enumerate(help_menu):
         if len(item) >= status_w:
@@ -114,24 +121,26 @@ def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
     status_w: int = 25
+    maxy = scr.getmaxyx()[0]-1
+    maxx = scr.getmaxyx()[1]
 
-    midy = int(scr.getmaxyx()[0] / 2)
-    midx = int(scr.getmaxyx()[1] / 2)
-    snake: list = [(midy, status_w+midx), (midy, status_w+midx+1),
-                   (midy, status_w+midx+2)]
+    midy = int(maxy / 2)
+    midx = int(maxx / 2)
+    snake: list = [(midy, status_w+midx), (midy, status_w+midx+1)]
+    # (midy, status_w+midx+2)]
     direction = WEST
     apples: list = []
     score = 0
     while True:
         scr.erase()
-        draw_statusbar(scr, status_w, score, snake)
+        draw_statusbar(scr, (maxy-1, maxx), status_w, score, snake, status_w+2)
         draw_snek(scr, snake)
         draw_apples(scr, apples)
         # ++ Tick ++
         key = scr.getch()
         direction = process_key(key, direction)
         snake = move_snake(snake, direction)
-        snake = portals(snake, status_w+2, scr.getmaxyx())
+        snake = portals(snake, direction, status_w+2, (maxy-1, maxx))
         snake, apples, nscore = eat_apples(snake, apples)
         score += nscore
         # -- Tick --
