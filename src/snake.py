@@ -119,7 +119,7 @@ def draw_statusbar(scr: curses.window, maxc: tuple, status_w: int, score: int):
     scr.addstr(2, 1, str(score))
     # Help menu
     help_menu = ["<: snake head", "s: snake body", "$: apple", "j: turn left",
-                 "k: turn right", "q: quit to main menu"]
+                 "k: turn right", "Q: quit to main menu"]
     starty = maxc[0]-1-len(help_menu)-1
     scr.addstr(starty, 0, section("HELP", status_w))
     for i, item in enumerate(help_menu):
