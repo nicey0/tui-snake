@@ -9,11 +9,6 @@ WEST = (0, -1)
 
 def tick(snake: list, direction: tuple, apples: list, score: int,
          minx: int, maxc: tuple) -> (list, tuple, list, int):
-    # Movement
-    for i in range(1, len(snake))[::-1]:
-        snake[i] = snake[i-1]
-    snake[0] = (snake[0][0] + direction[0],
-                snake[0][1] + direction[1])
     # Portals
     # y
     if snake[0][0] < 0:
@@ -34,12 +29,22 @@ def tick(snake: list, direction: tuple, apples: list, score: int,
     return (snake, direction, apples, score)
 
 
-def process_key(key: int, direction: list) -> list:
+def process_key(key: int, direction: tuple) -> tuple:
     # Key processing
     if key == ord('j'):
         direction = go_left(direction)
     elif key == ord('k'):
         direction = go_right(direction)
+    return direction
+
+
+def move_snake(snake: list, direction: tuple) -> list:
+    # Movement
+    for i in range(1, len(snake))[::-1]:
+        snake[i] = snake[i-1]
+    snake[0] = (snake[0][0] + direction[0],
+                snake[0][1] + direction[1])
+    return snake
 
 
 def go_left(direction: tuple) -> tuple:
