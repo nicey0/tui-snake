@@ -16,7 +16,7 @@ Simple Snake clone for Unix terminals, written in pure Python with a color modul
 ### Game state
 - [X] Running
     - [X] Fullscreen area
-    - [ ] 20-width area to the left (score, head position, apples onscreen, etc)
+    - [X] 20-width area to the left (score, apples onscreen, etc)
 - [ ] End
     - [ ] \<score\>
     - [ ] Play again
