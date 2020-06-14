@@ -9,17 +9,6 @@ WEST = (0, -1)
 
 def tick(snake: list, direction: tuple, apples: list, score: int,
          minx: int, maxc: tuple) -> (list, tuple, list, int):
-    # Portals
-    # y
-    if snake[0][0] < 0:
-        snake[0] = (maxc[0]-1, snake[0][1])
-    elif snake[0][0] >= maxc[0]:
-        snake[0] = (0, snake[0][1])
-    # x
-    if snake[0][1] < minx:
-        snake[0] = (snake[0][0], maxc[1]-1)
-    elif snake[0][1] >= maxc[1]:
-        snake[0] = (snake[0][0], minx)
     # Apples
     for apple in apples:
         if snake[0] == apple:
@@ -45,6 +34,19 @@ def move_snake(snake: list, direction: tuple) -> list:
     snake[0] = (snake[0][0] + direction[0],
                 snake[0][1] + direction[1])
     return snake
+
+
+def portals(snake: list, minx: int, maxc: tuple) -> list:
+    # y
+    if snake[0][0] < 0:
+        snake[0] = (maxc[0]-1, snake[0][1])
+    elif snake[0][0] >= maxc[0]:
+        snake[0] = (0, snake[0][1])
+    # x
+    if snake[0][1] < minx:
+        snake[0] = (snake[0][0], maxc[1]-1)
+    elif snake[0][1] >= maxc[1]:
+        snake[0] = (snake[0][0], minx)
 
 
 def go_left(direction: tuple) -> tuple:
