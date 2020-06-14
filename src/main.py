@@ -7,13 +7,8 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-def tick(snake: list, direction: tuple, key: int, apples: list, score: int,
+def tick(snake: list, direction: tuple, apples: list, score: int,
          minx: int, maxc: tuple) -> (list, tuple, list, int):
-    # Key processing
-    if key == ord('j'):
-        direction = go_left(direction)
-    elif key == ord('k'):
-        direction = go_right(direction)
     # Movement
     for i in range(1, len(snake))[::-1]:
         snake[i] = snake[i-1]
@@ -37,6 +32,14 @@ def tick(snake: list, direction: tuple, key: int, apples: list, score: int,
             apples.remove(apple)
             score += 1
     return (snake, direction, apples, score)
+
+
+def process_key(key: int, direction: list) -> list:
+    # Key processing
+    if key == ord('j'):
+        direction = go_left(direction)
+    elif key == ord('k'):
+        direction = go_right(direction)
 
 
 def go_left(direction: tuple) -> tuple:
