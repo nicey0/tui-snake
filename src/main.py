@@ -97,7 +97,7 @@ def draw_statusbar(scr: curses.window, status_w: int, score: int):
 def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
-    status_w: int = 20
+    status_w: int = 25
 
     midy = int(scr.getmaxyx()[0] / 2)
     midx = int(scr.getmaxyx()[1] / 2)
@@ -115,7 +115,7 @@ def main(scr: curses.window):
                                                apples, score, status_w+2,
                                                scr.getmaxyx())
         scr.refresh()
-        curses.napms(100)
+        curses.napms(60)
 
 
 if __name__ == '__main__':
