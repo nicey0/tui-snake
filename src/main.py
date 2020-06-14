@@ -16,6 +16,8 @@ if __name__ == '__main__':
     while state.running:
         if state == "end":
             args = [results]
+        else:
+            args = []
         next_state, results = state.run(*args)
         if next_state == " EXIT ":
             break
