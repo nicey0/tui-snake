@@ -44,6 +44,6 @@ def run_mainmenu(scr: curses.window):
         key = scr.getch()
         cursor, game_state = process_key(key, cursor, menu_items)
         if game_state != "":
-            return game_state
+            return game_state, 0
         # -- Tick --
         scr.refresh()

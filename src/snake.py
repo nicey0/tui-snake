@@ -160,10 +160,10 @@ def run_game(scr: curses.window):
                                status_w, (maxy, maxx))
         score += nscore
         if game_state != "":
-            return game_state
+            return game_state, score
         # -- Tick --
         scr.refresh()
         if check_loss(snake):
             curses.napms(1000)
-            return "end"
+            return "end", 0
         curses.napms(60)

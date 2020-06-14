@@ -25,9 +25,8 @@ def select(option: int, menu_items: list) -> str:
     return ""
 
 
-def run_end(scr: curses.window):
+def run_end(scr: curses.window, score: int):
     curses.curs_set(0)
-    score = 0
     message: str = f"Game over! Score: {score}"
     menu_items: list = ["Play again", "Exit"]
     game_state = ""
@@ -45,6 +44,6 @@ def run_end(scr: curses.window):
         key = scr.getch()
         cursor, game_state = process_key(key, cursor, menu_items)
         if game_state != "":
-            return game_state
+            return game_state, 0
         # -- Tick --
         scr.refresh()
