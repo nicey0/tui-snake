@@ -29,6 +29,10 @@ def move_snake(snake: list, direction: tuple) -> list:
     return snake
 
 
+def check_loss(snake) -> bool:
+    return snake[0] in snake[1:]
+
+
 def portals(snake: list, direction: tuple, minx: int, maxc: tuple) -> list:
     nexty: int = snake[0][0]
     nextx: int = snake[0][1]
@@ -159,4 +163,7 @@ def run_game(scr: curses.window):
             return game_state
         # -- Tick --
         scr.refresh()
+        if check_loss(snake):
+            curses.napms(1000)
+            return " EXIT "
         curses.napms(60)
