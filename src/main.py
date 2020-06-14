@@ -7,19 +7,25 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-def tick(snake: list, direction: tuple, key: int, apples: list, score: int,
-         minx: int, maxc: tuple) -> (list, tuple, list, int):
+def process_key(key: int, direction: tuple) -> tuple:
     # Key processing
     if key == ord('j'):
         direction = go_left(direction)
     elif key == ord('k'):
         direction = go_right(direction)
+    return direction
+
+
+def move_snake(snake: list, direction: tuple) -> list:
     # Movement
     for i in range(1, len(snake))[::-1]:
         snake[i] = snake[i-1]
     snake[0] = (snake[0][0] + direction[0],
                 snake[0][1] + direction[1])
-    # Portals
+    return snake
+
+
+def portals(snake: list, minx: int, maxc: tuple) -> list:
     # y
     if snake[0][0] < 0:
         snake[0] = (maxc[0]-1, snake[0][1])
@@ -30,13 +36,18 @@ def tick(snake: list, direction: tuple, key: int, apples: list, score: int,
         snake[0] = (snake[0][0], maxc[1]-1)
     elif snake[0][1] >= maxc[1]:
         snake[0] = (snake[0][0], minx)
+    return snake
+
+
+def eat_apples(snake: list, apples: list) -> (list, list, int):
+    score = 0
     # Apples
     for apple in apples:
         if snake[0] == apple:
             snake = big_snek(snake)
             apples.remove(apple)
             score += 1
-    return (snake, direction, apples, score)
+    return (snake, apples, score)
 
 
 def go_left(direction: tuple) -> tuple:
@@ -111,9 +122,14 @@ def main(scr: curses.window):
         draw_statusbar(scr, status_w, score)
         draw_snek(scr, snake)
         draw_apples(scr, apples)
-        snake, direction, apples, score = tick(snake, direction, scr.getch(),
-                                               apples, score, status_w+2,
-                                               scr.getmaxyx())
+        # ++ Tick ++
+        key = scr.getch()
+        direction = process_key(key, direction)
+        snake = move_snake(snake, direction)
+        snake = portals(snake, status_w+2, scr.getmaxyx())
+        snake, apples, nscore = eat_apples(snake, apples)
+        score += nscore
+        # -- Tick --
         scr.refresh()
         curses.napms(60)
 
