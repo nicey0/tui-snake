@@ -18,8 +18,8 @@ class State:
             return True
         return False
 
-    def run(self) -> str:
-        return curses.wrapper(self._game_state)
+    def run(self, *args) -> str:
+        return curses.wrapper(self._game_state, *args)
 
     def __eq__(self, game_state: str):
         return self._game_state == self._states[game_state]

@@ -11,8 +11,9 @@ if __name__ == '__main__':
         "end": run_end
     }
     state = State("mainmenu", states, True)
+    args = []
     while state.running:
-        next_state = state.run()
+        next_state = state.run(*args)
         if next_state == " EXIT ":
             break
         state.switch(next_state)
