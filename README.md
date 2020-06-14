@@ -3,7 +3,7 @@ Simple Snake clone for Unix terminals, written in Python+Curses
 
 ---
 
-## Installation
+## Running
 ```
 git clone https://github.com/nicey0/tui-snake.git
 cd tui-snake
