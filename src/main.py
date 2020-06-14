@@ -87,7 +87,7 @@ def draw_apples(scr: curses.window, apples: list):
         scr.addstr(y, x, '$')
 
 
-def draw_statusbar(scr: curses.window, status_w: int, score: int):
+def draw_statusbar(scr: curses.window, status_w: int, score: int, *args):
     def section(word: str, status_w: int):
         word = "--"+word
         return word + "-"*(status_w-len(word)+1)
@@ -95,8 +95,13 @@ def draw_statusbar(scr: curses.window, status_w: int, score: int):
         scr.addstr(line, status_w + 1, "|")
     scr.addstr(1, 0, section("SCORE", status_w))
     scr.addstr(2, 1, str(score))
+    # Debug
+    scr.addstr(4, 0, section("DEBUG", status_w))
+    for i, arg in enumerate(args):
+        scr.addstr(5+i, 1, str(arg))
     # Help menu
-    help_menu = ["j: turn left", "k: turn right", "q: quit to main menu"]
+    help_menu = ["#: snake head", "@: snake body", "$: apple", "j: turn left",
+                 "k: turn right", "q: quit to main menu"]
     starty = scr.getmaxyx()[0]-1-len(help_menu)-1
     scr.addstr(starty, 0, section("HELP", status_w))
     for i, item in enumerate(help_menu):
@@ -119,7 +124,7 @@ def main(scr: curses.window):
     score = 0
     while True:
         scr.erase()
-        draw_statusbar(scr, status_w, score)
+        draw_statusbar(scr, status_w, score, snake)
         draw_snek(scr, snake)
         draw_apples(scr, apples)
         # ++ Tick ++
