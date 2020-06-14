@@ -123,12 +123,14 @@ def draw_statusbar(scr: curses.window, maxc: tuple, status_w: int, score: int):
 
 def create_apples(snake: list, apples: list, amount: int, minx: int,
                   maxc: tuple) -> list:
-    while amount > 0:
-        y = randint(0, maxc[0]-1)
-        x = randint(minx, maxc[1]-1)
+    i = 0
+    while i < amount * 2 and amount > 0:
+        y = randint(0, maxc[0]-2)
+        x = randint(minx+2, maxc[1]-1)
         if (y, x) not in apples and (y, x) not in snake:
             apples.append((y, x))
             amount -= 1
+        i += 1
     return apples
 
 

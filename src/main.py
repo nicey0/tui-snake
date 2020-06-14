@@ -12,10 +12,11 @@ if __name__ == '__main__':
     }
     state = State("mainmenu", states, True)
     args = []
+    results = 0
     while state.running:
+        if state == "end":
+            args = [results]
         next_state, results = state.run(*args)
         if next_state == " EXIT ":
             break
-        if next_state == "end":
-            args = [results]
         state.switch(next_state)
