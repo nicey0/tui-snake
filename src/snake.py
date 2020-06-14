@@ -9,13 +9,15 @@ WEST = (0, -1)
 MAX_APPLES = 5
 
 
-def process_key(key: int, direction: tuple) -> tuple:
-    # Key processing
+def process_key(key: int, direction: tuple) -> (tuple, str):
+    game_state = ""
     if key == ord('j'):
         direction = go_left(direction)
     elif key == ord('k'):
         direction = go_right(direction)
-    return direction
+    elif key == ord('Q'):
+        game_state = "mainmenu"
+    return (direction, game_state)
 
 
 def move_snake(snake: list, direction: tuple) -> list:
@@ -128,6 +130,7 @@ def create_apples(snake: list, apples: list, amount: int, minx: int,
 def run_game(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
+    game_state = ""
     status_w: int = 25
     maxy = scr.getmaxyx()[0]-1
     maxx = scr.getmaxyx()[1]
@@ -145,13 +148,15 @@ def run_game(scr: curses.window):
         draw_apples(scr, apples)
         # ++ Tick ++
         key = scr.getch()
-        direction = process_key(key, direction)
+        direction, game_state = process_key(key, direction)
         snake = move_snake(snake, direction)
         snake = portals(snake, direction, status_w+2, (maxy-1, maxx))
         snake, apples, nscore = eat_apples(snake, apples)
         apples = create_apples(snake, apples, MAX_APPLES - len(apples),
                                status_w, (maxy, maxx))
         score += nscore
+        if game_state != "":
+            return game_state
         # -- Tick --
         scr.refresh()
         curses.napms(60)
