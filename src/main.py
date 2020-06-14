@@ -76,23 +76,42 @@ def draw_apples(scr: curses.window, apples: list):
         scr.addstr(y, x, '$')
 
 
+def draw_statusbar(scr: curses.window, status_w: int, score: int):
+    def section(word: str, status_w: int):
+        word = "--"+word
+        return word + "-"*(status_w-len(word)+1)
+    for line in range(scr.getmaxyx()[0]):
+        scr.addstr(line, status_w + 1, "|")
+    scr.addstr(1, 0, section("SCORE", status_w))
+    scr.addstr(2, 1, str(score))
+    # Help menu
+    ylen = 4
+    starty = scr.getmaxyx()[0]-1-ylen
+    scr.addstr(starty, 0, section("HELP", status_w))
+    scr.addstr(starty + 1, 1, "j: turn left")
+    scr.addstr(starty + 2, 1, "k: turn right")
+    scr.addstr(starty + 3, 1, "q: quit to main menu")
+
+
 def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
-    status_w: int = 2
-    snake: list = [(0, status_w+1), (0, status_w+2), (0, status_w+3)]
-    for i in range(4, 30+1):
-        snake.append((0, status_w+i))
+    status_w: int = 25
+
+    midy = int(scr.getmaxyx()[0] / 2)
+    midx = int(scr.getmaxyx()[1] / 2)
+    snake: list = [(midy, status_w+midx), (midy, status_w+midx+1),
+                   (midy, status_w+midx+2)]
     direction = WEST
-    apples: list = [(5, 5), (8, 8)]
+    apples: list = []
     score = 0
     while True:
         scr.clear()
+        draw_statusbar(scr, status_w, score)
         draw_snek(scr, snake)
         draw_apples(scr, apples)
-        scr.addstr(0, 0, str(score))
         snake, direction, apples, score = tick(snake, direction, scr.getch(),
-                                               apples, score, status_w,
+                                               apples, score, status_w+2,
                                                scr.getmaxyx())
         scr.refresh()
         curses.napms(100)
