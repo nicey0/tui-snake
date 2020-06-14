@@ -89,13 +89,15 @@ def draw_statusbar(scr: curses.window, status_w: int, score: int):
     starty = scr.getmaxyx()[0]-1-len(help_menu)-1
     scr.addstr(starty, 0, section("HELP", status_w))
     for i, item in enumerate(help_menu):
+        if len(item) >= status_w:
+            item = item[:-2] + "-"
         scr.addstr(starty + i + 1, 1, item)
 
 
 def main(scr: curses.window):
     curses.curs_set(0)
     scr.nodelay(True)
-    status_w: int = 25
+    status_w: int = 20
 
     midy = int(scr.getmaxyx()[0] / 2)
     midx = int(scr.getmaxyx()[1] / 2)
@@ -105,7 +107,7 @@ def main(scr: curses.window):
     apples: list = []
     score = 0
     while True:
-        scr.clear()
+        scr.erase()
         draw_statusbar(scr, status_w, score)
         draw_snek(scr, snake)
         draw_apples(scr, apples)
