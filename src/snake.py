@@ -165,5 +165,5 @@ def run_game(scr: curses.window):
         scr.refresh()
         if check_loss(snake):
             curses.napms(1000)
-            return " EXIT "
+            return "end"
         curses.napms(60)

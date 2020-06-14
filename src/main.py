@@ -1,12 +1,14 @@
 from state import State
 from snake import run_game
 from mainmenu import run_mainmenu
+from end import run_end
 
 
 if __name__ == '__main__':
     states: dict = {
         "game": run_game,
-        "mainmenu": run_mainmenu
+        "mainmenu": run_mainmenu,
+        "end": run_end
     }
     state = State("mainmenu", states, True)
     while state.running:
