@@ -85,12 +85,11 @@ def draw_statusbar(scr: curses.window, status_w: int, score: int):
     scr.addstr(1, 0, section("SCORE", status_w))
     scr.addstr(2, 1, str(score))
     # Help menu
-    ylen = 4
-    starty = scr.getmaxyx()[0]-1-ylen
+    help_menu = ["j: turn left", "k: turn right", "q: quit to main menu"]
+    starty = scr.getmaxyx()[0]-1-len(help_menu)-1
     scr.addstr(starty, 0, section("HELP", status_w))
-    scr.addstr(starty + 1, 1, "j: turn left")
-    scr.addstr(starty + 2, 1, "k: turn right")
-    scr.addstr(starty + 3, 1, "q: quit to main menu")
+    for i, item in enumerate(help_menu):
+        scr.addstr(starty + i + 1, 1, item)
 
 
 def main(scr: curses.window):
