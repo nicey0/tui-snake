@@ -150,8 +150,8 @@ def main(scr: curses.window):
         snake = move_snake(snake, direction)
         snake = portals(snake, direction, status_w+2, (maxy-1, maxx))
         snake, apples, nscore = eat_apples(snake, apples)
-        apples = create_apples(snake, apples, MAX_APPLES - len(apples), status_w,
-                               (maxy, maxx))
+        apples = create_apples(snake, apples, MAX_APPLES - len(apples),
+                               status_w, (maxy, maxx))
         score += nscore
         # -- Tick --
         scr.refresh()
