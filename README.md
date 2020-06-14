@@ -3,6 +3,13 @@ Simple Snake clone for Unix terminals, written in Python+Curses
 
 ---
 
+## Screenshots
+![menu](https://github.com/nicey0/tui-snake/blob/master/screenshots/menu.png)
+![game](https://github.com/nicey0/tui-snake/blob/master/screenshots/game.png)
+![end](https://github.com/nicey0/tui-snake/blob/master/screenshots/gameover.png)
+
+---
+
 ## Todo
 ### Curses display
 ### Snake
