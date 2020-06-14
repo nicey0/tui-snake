@@ -88,10 +88,17 @@ def big_snek(snake: list) -> list:
     return snake + [snake[-1]]
 
 
-def draw_snek(scr: curses.window, snake: list):
+def draw_snek(scr: curses.window, snake: list, direction: tuple):
     for y, x in snake[1:]:
-        scr.addstr(y, x, '@')
-    scr.addstr(snake[0][0], snake[0][1], '#')
+        scr.addstr(y, x, 's')
+    if direction == NORTH:
+        scr.addstr(snake[0][0], snake[0][1], '^')
+    elif direction == SOUTH:
+        scr.addstr(snake[0][0], snake[0][1], 'v')
+    elif direction == EAST:
+        scr.addstr(snake[0][0], snake[0][1], '>')
+    elif direction == WEST:
+        scr.addstr(snake[0][0], snake[0][1], '<')
 
 
 def draw_apples(scr: curses.window, apples: list):
@@ -111,7 +118,7 @@ def draw_statusbar(scr: curses.window, maxc: tuple, status_w: int, score: int):
     scr.addstr(1, 0, section("SCORE", status_w))
     scr.addstr(2, 1, str(score))
     # Help menu
-    help_menu = ["#: snake head", "@: snake body", "$: apple", "j: turn left",
+    help_menu = ["<: snake head", "s: snake body", "$: apple", "j: turn left",
                  "k: turn right", "q: quit to main menu"]
     starty = maxc[0]-1-len(help_menu)-1
     scr.addstr(starty, 0, section("HELP", status_w))
@@ -153,7 +160,7 @@ def run_game(scr: curses.window):
     while True:
         scr.erase()
         draw_statusbar(scr, (maxy-1, maxx), status_w, score)
-        draw_snek(scr, snake)
+        draw_snek(scr, snake, direction)
         draw_apples(scr, apples)
         # ++ Tick ++
         key = scr.getch()
