@@ -11,8 +11,8 @@ Simple Snake clone for Unix terminals, written in pure Python with a color modul
 - [X] Wrapping (teleport down if y < 0 and etc)
 ### Apples
 - [X] Disappear when eaten
-- [ ] Create new apples after the last was eaten
-- [ ] Don't spawn apples on top of the snake
+- [X] Create new apples after the last was eaten
+- [X] Don't spawn apples on top of the snake
 ### Game state
 - [X] Running
     - [X] Fullscreen area
