@@ -1,5 +1,5 @@
 # tui-snake
-Simple Snake clone for Unix terminals, written in pure Python with a color module
+Simple Snake clone for Unix terminals, written in Python+Curses
 
 ---
 
