@@ -3,6 +3,19 @@ Simple Snake clone for Unix terminals, written in Python+Curses
 
 ---
 
+## Installation
+```
+git clone https://github.com/nicey0/tui-snake.git
+cd tui-snake
+python3 src/main.py
+```
+
+### Dependencies
+- Python >= 3.8
+- ncurses >= ?
+
+---
+
 ## Screenshots
 ![menu](https://github.com/nicey0/tui-snake/blob/master/screenshots/menu.png)
 ![game](https://github.com/nicey0/tui-snake/blob/master/screenshots/game.png)
@@ -48,16 +61,3 @@ Simple Snake clone for Unix terminals, written in Python+Curses
     - [X] q quits to main menu
 ### Score
 - [X] Add score system (apples eaten)
-
----
-
-## Installation
-```
-git clone https://github.com/nicey0/tui-snake.git
-cd tui-snake
-python3 src/main.py
-```
-
-### Dependencies
-- Python >= 3.8
-- ncurses >= ?
