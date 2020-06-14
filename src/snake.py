@@ -135,7 +135,6 @@ def run_game(scr: curses.window):
     midy = int(maxy / 2)
     midx = int(maxx / 2)
     snake: list = [(midy, status_w+midx), (midy, status_w+midx+1)]
-    # (midy, status_w+midx+2)]
     direction = WEST
     apples: list = []
     score = 0
