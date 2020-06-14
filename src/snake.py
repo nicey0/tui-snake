@@ -7,6 +7,7 @@ SOUTH = (1, 0)
 EAST = (0, 1)
 WEST = (0, -1)
 MAX_APPLES = 5
+SNAKE_LEN = 5
 
 
 def process_key(key: int, direction: tuple) -> (tuple, str):
@@ -141,7 +142,9 @@ def run_game(scr: curses.window):
 
     midy = int(maxy / 2)
     midx = int(maxx / 2)
-    snake: list = [(midy, status_w+midx), (midy, status_w+midx+1)]
+    snake: list = []
+    for i in range(SNAKE_LEN):
+        snake.append((midy, status_w+midx+i))
     direction = WEST
     apples: list = []
     score = 0
@@ -160,10 +163,10 @@ def run_game(scr: curses.window):
                                status_w, (maxy, maxx))
         score += nscore
         if game_state != "":
-            return game_state, score
+            return game_state, 0
         # -- Tick --
         scr.refresh()
         if check_loss(snake):
             curses.napms(1000)
-            return "end", 0
+            return "end", score
         curses.napms(60)
