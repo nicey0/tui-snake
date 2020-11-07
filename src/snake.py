@@ -6,16 +6,24 @@ NORTH = (-1, 0)
 SOUTH = (1, 0)
 EAST = (0, 1)
 WEST = (0, -1)
-MAX_APPLES = 5
+MAX_APPLES = 50
 SNAKE_LEN = 5
 
 
 def process_key(key: int, direction: tuple) -> (tuple, str):
     game_state = ""
-    if key == ord('j'):
-        direction = go_left(direction)
-    elif key == ord('k'):
-        direction = go_right(direction)
+    if key == curses.KEY_UP:
+        direction = NORTH if direction != NORTH and direction != SOUTH else \
+            direction
+    elif key == curses.KEY_DOWN:
+        direction = SOUTH if direction != NORTH and direction != SOUTH else \
+            direction
+    elif key == curses.KEY_LEFT:
+        direction = WEST if direction != WEST and direction != EAST else \
+            direction
+    elif key == curses.KEY_RIGHT:
+        direction = EAST if direction != WEST and direction != EAST else \
+            direction
     elif key == ord('Q'):
         game_state = "mainmenu"
     return (direction, game_state)
@@ -178,4 +186,4 @@ def run_game(scr: curses.window):
         if check_loss(snake):
             curses.napms(1000)
             return "end", score
-        curses.napms(60)
+        curses.napms(100)
